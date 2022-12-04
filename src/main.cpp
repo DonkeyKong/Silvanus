@@ -2,6 +2,7 @@
 static auto& config = ConfigService::global;
 #include "HttpService.hpp"
 #include "InputButton.hpp"
+#include "SilvanusIO.hpp"
 
 #include <unistd.h>
 #include <signal.h>
@@ -116,6 +117,8 @@ int main(int argc, char *argv[])
     addButton(usbButton);
 #endif
 
+    SilvanusIO silvanus;
+
     auto thisEvalComplete = std::chrono::high_resolution_clock::now();
     auto lastEvalComplete = std::chrono::high_resolution_clock::now();
     auto evalInterval = std::chrono::high_resolution_clock::duration(std::chrono::seconds(1));
@@ -124,6 +127,8 @@ int main(int argc, char *argv[])
     while (!interrupt_received && !internal_exit)
     {
         // Evaluate logic
+        std::cout << "Moisture: " << silvanus.GetMoisture() << std::endl;
+        std::cout << "Temp: " << silvanus.GetTemperature() << "ºC" << std::endl;
 
         // Regulate update rate
         thisEvalComplete = std::chrono::high_resolution_clock::now();

@@ -9,11 +9,11 @@ The Raspberry Pi should be configured with a 3 relay hat, with the following set
 
 | Relay # | Relay Mode | Control Pin | Hardware |
 |-|-|-|-|
-1 | NO | 26 | Water pump 1
-2 | NO | 20 | Water pump 2 (optional)
-3 | NO | 21 | Light
+1 | NO | 26 | Light
+2 | NO | 20 | Water pump
+3 | - | 21 | No connection (future expansion)
 
-A capacitive moisture sensor should be wired to the SCL/SDA pins
+A capacitive moisture sensor should be wired to the I2C pins and available as device 0x36
 
 ## Configuration Parameters
 
