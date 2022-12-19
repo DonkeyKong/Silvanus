@@ -11,9 +11,9 @@ Silvanus is a simple, RPi-based plant watering and light management system for h
 - 5v power supply for RPi
 - 12v power supply for pump
 
-The Raspberry Pi relay hat is rated to control AC power up to 250V / 10A or DC power up to 30V / 5A. This means you can turn on and off grow lights by running the the hot lead of their hot AC line straight through the a relay. The same goes for the water pump. Simply run one of its power lines through a relay to control it.
+The Raspberry Pi relay hat is rated to control AC power up to 250V / 10A or DC power up to 30V / 5A. This means you can turn on and off grow lights by running the the hot lead of their AC power supply straight through the a relay. The same goes for the water pump. Simply run one of its power lines through a relay to control it.
 
-The rest of the hardware is at your discretion how it's wired, what housing to use, etc. My reference setup uses a large junction box.
+The rest of the hardware is at your discretion how it's wired, what housing to use, etc. My reference setup uses a large junction box as an enclosure and a 10A fused power switch for safety.
 
 ## Hardware Setup
 
