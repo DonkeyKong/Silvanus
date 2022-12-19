@@ -48,10 +48,11 @@ function getStatus(loop = true)
         if (xhr.status < 300 && xhr.status >= 200)
         {
             var status = JSON.parse(xhr.responseText);
-            document.getElementById("statusTemp").innerText = status["temperature"];
-            document.getElementById("statusMoisture").innerText = status["moisture"];
+            document.getElementById("statusTemp").innerText = Math.round(status["temperature"]);
+            document.getElementById("statusMoisture").innerText = Math.round(status["moisture"] * 100.0);
             document.getElementById("statusLight").innerText = status["light-on"] ? "On" : "Off";
             document.getElementById("statusPump").innerText = status["pump-on"] ? "On" : "Off";
+            document.getElementById("statusMsg").innerText = "OK"
 
             if (loop)
             {
@@ -62,7 +63,12 @@ function getStatus(loop = true)
         {
             console.log(xhr.status);
             console.log(xhr.responseText);
-            document.getElementById("statusMsg").innerText = "Connection to Silvanus lost! Refresh to try again."
+
+            document.getElementById("statusTemp").innerText = "-";
+            document.getElementById("statusMoisture").innerText = "-";
+            document.getElementById("statusLight").innerText = "-";
+            document.getElementById("statusPump").innerText = "-";
+            document.getElementById("statusMsg").innerText = "Error! Refresh to try again."
         }
     }};
 

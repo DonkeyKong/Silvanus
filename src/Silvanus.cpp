@@ -69,7 +69,7 @@ namespace
     template <typename InputType, typename OutputType>
     static OutputType remap(InputType value, InputType inMin, InputType inMax, OutputType outMin, OutputType outMax, bool clamp = true)
     {
-        OutputType outValue = (OutputType)(((double)(value - inMin) / (double)(inMax - inMax)) * (double)(outMax-outMin) + outMin);
+        OutputType outValue = (OutputType)((((double)value - (double)inMin) / ((double)inMax - (double)inMin)) * ((double)outMax-(double)outMin) + (double)outMin);
         if (clamp)
         {
             outValue = min(max(outValue, outMin),outMax);
