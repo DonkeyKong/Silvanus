@@ -112,6 +112,12 @@ bool ConfigService::ValueTypeMatches(const std::string& key, const nlohmann::jso
 {
     if (!_initDone) throw std::runtime_error("Config service is not initialized!");
     if (!HasKey(key)) return false;
+
+    // Numeric types can be finnicky. If both are numbers, just say its a match.
+    if (getJsonValue(key, false).is_number() && value.is_number())
+        return true;
+
+    // Perform a more complete match for non-numeric types
     return getJsonValue(key, false).type() == value.type();
 }
 

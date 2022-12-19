@@ -33,7 +33,7 @@ system_target(nlohmann_json) # Silence annoying warnings
 add_executable( ${PROJECT_NAME} 
                     src/ConfigService.cpp
                     src/HttpService.cpp
-                    src/InputButton.cpp
+                    src/Silvanus.cpp
                     src/main.cpp )
 
 # Set some compiler flags used for pi-only features

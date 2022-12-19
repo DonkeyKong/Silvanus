@@ -1,0 +1,9 @@
+320 - Open air, dry
+561 - Immersed in dry soil (small pot)
+680 - Immersed in water (small pot)
+800 - Moist soil (large pot)
+850 - Dry 
+950 - Wet soil (large pot)
+1000 - Gripped by a person
+
+Pump speed: 78 mL / minute when on

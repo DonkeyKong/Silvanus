@@ -1,12 +1,136 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <title>Command Interface</title>
+    <title>Silvanus Web Interface</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="silvanus.css">
   </head>
-  <body>
+  <script src="silvanus.js"></script>
+  <body onload="silvanusMain();">
     <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-    <form action="/system/restart" method="post" target="dummyframe" id="restartCmd">
-      <input type="reset" value="Reset" onclick="document.forms['restartCmd'].submit();">
+    
+    <h1>Silvanus <span class="version">v0.3</span></h1>
+    <div class="slogan">Let them grow wild</div>
+
+    <h2>Status</h2>
+    <table class="labelValueTable">
+        <tr>
+            <td class="label">Temperature:</td>
+            <td class="value"><div id="statusTemp">0</div>&#8451;</td>
+        </tr>
+        <tr>
+            <td class="label">Moisture:</td>
+            <td class="value"><div id="statusMoisture">0</div>%</td>
+        </tr>
+        <tr>
+            <td class="label">Light:</td>
+            <td class="value"><div id="statusLight">Off</div></td>
+        </tr>
+        <tr>
+            <td class="label">Pump:</td>
+            <td class="value"><div id="statusPump">Off</div></td>
+        </tr>
+        <tr>
+            <td class="label">Connection:</td>
+            <td class="value"><div id="statusMsg">Pending</div></td>
+        </tr>
+    </table>
+    
+    <h2>Settings</h2>
+    <form>
+        <table class="labelValueTable">
+            <tr>
+                <td class="label"><label for="lightTime">Light On Time:</label></td>
+                <td class="value">
+                    <input type="number" id="lightTime" name="lightTime" min="1" max="86400" value="25200">
+                    seconds after midnight
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label"><label for="lightInterval">Light Interval:</label></td>
+                <td class="value"> 
+                    <input type="number" id="lightInterval" name="lightInterval" min="1" max="86400" value="43200">
+                    seconds
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label"><label for="waterTime">Water On Time:</label></td>
+                <td class="value">
+                    <input type="number" id="waterTime" name="waterTime" min="1" max="86400" value="25200"> 
+                    seconds after midnight
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label"><label for="waterAmountPerDay">Water per Day:</label></td>
+                <td class="value">
+                    <input type="number" id="waterAmountPerDay" name="waterAmountPerDay" min="1" max="1000" value="100">
+                    mL
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label"><label for="waterFlowRate">Water Flow Rate:</label></td>
+                <td class="value">
+                    <input type="number" id="waterFlowRate" name="waterFlowRate" value="1.3">
+                    mL/sec
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td class="submitButton">
+                    <input type="button" value="Apply Settings" onclick="submitSettingsPatch();">
+                </td>
+            </tr>
+        </table>
     </form>
+
+    <h2>Commands</h2>
+
+    <table class="commandDescriptionTable">
+        <tr>
+            <td class="command">
+                <form id="setLight">
+                    <select id="lightMode" name="lightMode">
+                        <option value="auto">Auto</option>
+                        <option value="on">On</option>
+                        <option value="off">Off</option>
+                    </select>
+                    <input type="button" value="Set Light" onclick="submitSetLight();">
+                </form>
+            </td>
+            <td class="description">
+                Forces the Light output to the specified state temporarily. <br />
+                Does not cancel any scheduled on/off actions.
+            </td>
+        </tr>
+
+        <tr>
+            <td class="command">
+                <form action="/water-now" method="post" target="dummyframe" id="waterNowCmd">
+                    <input type="button" value="Water Now" onclick="document.forms['waterNowCmd'].submit();">
+                </form>
+            </td>
+            <td class="description">
+                Triggers a watering event right now, dispensing the number <br />
+                of mL specified above in Settings.
+            </td>
+        </tr>
+
+        <tr>
+            <td class="command">
+                <form action="/system/restart" method="post" target="dummyframe" id="restartCmd">
+                    <input type="button" value="Restart Silvanus" onclick="document.forms['restartCmd'].submit();">
+                </form>
+            </td>
+            <td class="description">
+                Restarts the Silvanus process, reinitializing the I/O devices.
+            </td>
+        </tr>
+    </table>
+    <div class="footer">Silvanus is open source. Learn more at the <a href="https://github.com/DonkeyKong/Silvanus">Silvanus GitHub repo</a>.</div>
   </body>
 </html>

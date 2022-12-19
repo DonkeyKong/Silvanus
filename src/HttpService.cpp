@@ -6,8 +6,36 @@ static auto& config = ConfigService::global;
 #include <ifaddrs.h>
 #include <filesystem>
 #include <nlohmann/json.hpp>
+#include <fmt/format.h>
 
 using json = nlohmann::json;
+
+static bool endsWith (const std::string& fullString, const std::string& ending) 
+{
+    if (fullString.length() >= ending.length()) 
+    {
+        return (0 == fullString.compare(fullString.length() - ending.length(), ending.length(), ending));
+    } 
+    return false;
+}
+
+static std::string getMimeType(const std::string& filename)
+{
+    if (endsWith(filename, ".html") || endsWith(filename, ".htm"))
+    {
+        return "text/html";
+    }
+    else if (endsWith(filename, ".css"))
+    {
+        return "text/css";
+    }
+    else if (endsWith(filename, ".js"))
+    {
+        return "text/javascript";
+    }
+
+    return "text/plain";
+}
 
 static std::string getFirstExternalHostAddr()
 {
@@ -59,7 +87,10 @@ HttpService::HttpService()
     std::filesystem::path webDir = std::filesystem::path(config.resourcePath()) / "Web";
     for (const auto & entry : std::filesystem::directory_iterator(webDir))
     {
-        if (entry.is_regular_file() && entry.path().extension() == ".html")
+        if (entry.is_regular_file() && (entry.path().extension() == ".html" || 
+                                        entry.path().extension() == ".htm" || 
+                                        entry.path().extension() == ".css" || 
+                                        entry.path().extension() == ".js"))
         {
             std::ifstream t(entry.path());
             std::stringstream buffer;
@@ -146,10 +177,32 @@ static json getRequestPayload(const httplib::Request& req)
 
 void HttpService::setupCallbacks()
 {
-    srv->Get("/", [=](const httplib::Request& req, httplib::Response& res) 
+    // Serve everything in the web server cache
+    for (const auto& [filename, text] : web )
     {
-        res.set_content(web["index.html"], "text/html");
-    });
+        std::string name = filename;
+        std::string mimetype = getMimeType(name);
+        srv->Get(fmt::format("/{}", filename), [this, name, mimetype](const httplib::Request& req, httplib::Response& res) 
+        {
+            res.set_content(web[name], mimetype);
+        });
+    }
+
+    // Add the default index handler
+    if (web.count("index.html"))
+    {
+        srv->Get("/", [=](const httplib::Request& req, httplib::Response& res) 
+        {
+            res.set_content(web["index.html"], getMimeType("index.html"));
+        });
+    }
+    else if (web.count("index.htm"))
+    {
+        srv->Get("/", [=](const httplib::Request& req, httplib::Response& res) 
+        {
+            res.set_content(web["index.htm"], getMimeType("index.htm"));
+        });
+    }
 }
 
 std::string HttpService::ListeningInterface()
