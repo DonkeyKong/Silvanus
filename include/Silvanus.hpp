@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Adafruit_SHT31.hpp"
+
 #include <vector>
 #include <mutex>
 #include <thread>
@@ -16,22 +18,20 @@ public:
     bool GetPump();
     void PulseLight(std::chrono::seconds duration);
     void PulsePump(std::chrono::seconds duration);
-    float GetMoisture();
-    double GetTemperature();
+    float GetHumidity();
+    float GetTemperature();
 private:
-    int i2cFile_;
     std::mutex ioMutex_;
     #ifndef PI_HOST
     bool lightState_;
     bool pumpState_;
     #endif
-    
-    bool writeI2C(uint8_t baseAddr, uint8_t regAddr, const std::vector<uint8_t>& buf = std::vector<uint8_t>());
-    bool readI2C(uint8_t baseAddr, uint8_t regAddr, std::vector<uint8_t>& buf, double delay = 0.008);
+
     void pulseThreadFunc();
     bool exit_;
     std::chrono::steady_clock::time_point lightOffTime_;
     std::chrono::steady_clock::time_point pumpOffTime_;
     std::mutex threadMutex_;
     std::unique_ptr<std::thread> pulseThread_;
+    Adafruit_SHT31 tempHumSensor_;
 };

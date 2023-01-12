@@ -178,7 +178,7 @@ int main(int argc, char *argv[])
     {
         auto status = json::object();
         status["temperature"] = silvanus.GetTemperature();
-        status["moisture"] = silvanus.GetMoisture();
+        status["humidity"] = silvanus.GetHumidity();
         status["light-on"] = silvanus.GetLight();
         status["pump-on"] = silvanus.GetPump();
         std::stringstream ss;

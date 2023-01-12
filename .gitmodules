@@ -1,12 +1,16 @@
 [submodule "deps/cpp-httplib"]
 	path = deps/cpp-httplib
 	url = https://github.com/yhirose/cpp-httplib.git
+	shallow = true
 [submodule "deps/fmt"]
 	path = deps/fmt
 	url = https://github.com/fmtlib/fmt.git
+	shallow = true
 [submodule "deps/json"]
 	path = deps/json
 	url = https://github.com/nlohmann/json.git
+	shallow = true
 [submodule "deps/sigslot"]
 	path = deps/sigslot
 	url = https://github.com/palacaze/sigslot.git
+	shallow = true

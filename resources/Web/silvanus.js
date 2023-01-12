@@ -49,7 +49,7 @@ function getStatus(loop = true)
         {
             var status = JSON.parse(xhr.responseText);
             document.getElementById("statusTemp").innerText = Math.round(status["temperature"]);
-            document.getElementById("statusMoisture").innerText = Math.round(status["moisture"] * 100.0);
+            document.getElementById("statusHumidity").innerText = Math.round(status["humidity"] * 100.0);
             document.getElementById("statusLight").innerText = status["light-on"] ? "On" : "Off";
             document.getElementById("statusPump").innerText = status["pump-on"] ? "On" : "Off";
             document.getElementById("statusMsg").innerText = "OK"
@@ -65,7 +65,7 @@ function getStatus(loop = true)
             console.log(xhr.responseText);
 
             document.getElementById("statusTemp").innerText = "-";
-            document.getElementById("statusMoisture").innerText = "-";
+            document.getElementById("statusHumidity").innerText = "-";
             document.getElementById("statusLight").innerText = "-";
             document.getElementById("statusPump").innerText = "-";
             document.getElementById("statusMsg").innerText = "Error! Refresh to try again."
