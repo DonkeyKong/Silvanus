@@ -40,7 +40,7 @@ target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE deps/json/include)
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 target_link_libraries(${PROJECT_NAME} OpenSSL::SSL OpenSSL::Crypto)
 if (BCM_HOST_PATH)
-  target_link_libraries(${PROJECT_NAME} stdc++fs bcm_host)
+  target_link_libraries(${PROJECT_NAME} stdc++fs bcm_host pthread)
 endif()
 
 add_custom_target(copy_resources ALL)

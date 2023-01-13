@@ -49,7 +49,7 @@ function getStatus(loop = true)
         {
             var status = JSON.parse(xhr.responseText);
             document.getElementById("statusTemp").innerText = Math.round(status["temperature"]);
-            document.getElementById("statusHumidity").innerText = Math.round(status["humidity"] * 100.0);
+            document.getElementById("statusHumidity").innerText = Math.round(status["humidity"]);
             document.getElementById("statusLight").innerText = status["light-on"] ? "On" : "Off";
             document.getElementById("statusPump").innerText = status["pump-on"] ? "On" : "Off";
             document.getElementById("statusMsg").innerText = "OK"

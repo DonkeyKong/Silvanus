@@ -1,6 +1,8 @@
 #include "I2CDevice.hpp"
 
 #include <thread>
+#include <stdexcept>
+
 #ifdef PI_HOST
 #include <unistd.h>        //Needed for I2C port
 #include <fcntl.h>         //Needed for I2C port
@@ -16,7 +18,7 @@ I2CDevice::I2CDevice(uint8_t deviceId, std::string i2cDeviceName)
     i2cFile_ = -1;
     throw std::runtime_error("Failed to open the i2c bus");
   }
-  if (ioctl(i2cFile_, I2C_SLAVE, i2caddr) < 0)
+  if (ioctl(i2cFile_, I2C_SLAVE, deviceId) < 0)
   {
     close(i2cFile_);
     i2cFile_ = -1;
